@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Sõidu auto</title>
 </head>
 <body>
     <div class="App">
         <div class="App-body">
           <div class="App-container"> 
+            <button onClick="goBack()">Назад</button>
             <header class="App-header"><h3>Машина</h3></header>
             
           </div>
@@ -17,6 +17,10 @@
       </div>
 </body>
 </html>
+
+<script>
+  function goBack() { window.history.back(); }
+</script>
 
 <style>    
 .App {

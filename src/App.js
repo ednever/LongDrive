@@ -31,14 +31,12 @@ function App() {
       }
       window.location.href = test;
     }
-     
-}
+  }
 
   return (
     <div className="App">
       <div className="App-body">
         <div className="App-container">
-
           <header className="App-header"><h1>Long Drive</h1></header>
           <header className="App-header"><h3>Выберите</h3></header>
           <div>
