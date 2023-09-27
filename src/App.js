@@ -8,7 +8,7 @@ function App() {
   const [veoAutod, setVeoautod] = useState([]);
 
   useEffect(() => {
-    fetch("https://localhost:7101/Soiduauto") //показ всех продуктов
+    fetch("https://localhost:7101/Soiduauto") //показ всех продуктов-
       .then(res => res.json())
       .then(json => setSoiduautod(json));
     fetch("https://localhost:7101/Veoauto")
