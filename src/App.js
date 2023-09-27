@@ -16,6 +16,24 @@ function App() {
       .then(json => setVeoautod(json));
   }, []);
 
+  function redirectToPage(select, autodList) {
+    var selectedValue = select.value;
+    if (selectedValue) 
+    {
+      var test;
+      if (autodList === soiduAutod) 
+      {
+        test = "soiduAutod.html";
+      } 
+      else 
+      {
+        test = "veoAutod.html";
+      }
+      window.location.href = test;
+    }
+     
+}
+
   return (
     <div className="App">
       <div className="App-body">
@@ -24,13 +42,13 @@ function App() {
           <header className="App-header"><h1>Long Drive</h1></header>
           <header className="App-header"><h3>Выберите</h3></header>
           <div>
-          <select>
-            <option value="Машины">Машины</option>
-            {soiduAutod.map((auto) => (<option value={auto.mark}> {auto.mark} </option>))}
+          <select onChange={(e) => redirectToPage(e.target, soiduAutod)}>
+            <option value="">Машины</option>
+            {soiduAutod.map((auto) => (<option value={auto.mark}> {auto.mark} </option>))} 
           </select>
 
-          <select>
-            <option value="Грузовики">Грузовики</option>
+          <select onChange={(e) => redirectToPage(e.target, veoAutod)}>
+            <option value="">Грузовики</option>
             {veoAutod.map((auto) => (<option value={auto.mark}> {auto.mark} </option>))}
           </select>
 
@@ -44,4 +62,3 @@ function App() {
 }
 
 export default App;
-//value={selectedOption1} onChange={(e) => setSelectedOption1(e.target.value)}
