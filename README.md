@@ -1,3 +1,4 @@
-In the project directory, you can run:
+### To run project:
 
-### `npm start`
+## `npm install react`
+## `npm start`
