@@ -1,9 +1,19 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import TellimusPage from './TellimusPage';
+
 
 function HomePage(){
     const [soiduAutod, setSoiduautod] = useState([]);
     const [veoAutod, setVeoautod] = useState([]);
+
+    const tellimus = () => {
+      window.location.href = "http://localhost:3000/tellimus";
+    }
+
+    const autod = () => {
+      window.location.href = "http://localhost:3000/autod";
+    }
 
     useEffect(() => {
         fetch("https://localhost:7101/Soiduauto") //показ всех продуктов-1
@@ -23,13 +33,14 @@ function HomePage(){
         {
             test = "http://localhost:3000/soiduAutod";
         } 
-        else 
+        else if(autodList === veoAutod)
         {
             test = "http://localhost:3000/veoAutod";
         }
         window.location.href = test;
         }
     };
+
 
     return (
         <div className="App">
@@ -49,8 +60,8 @@ function HomePage(){
               </select>
     
               </div>
-              <button>Добавить</button>
-              
+              <button onClick={tellimus}>Добавить заказ</button>
+              <button onClick={autod}>Добавить тс</button>
             </div>
           </div>
         </div>
