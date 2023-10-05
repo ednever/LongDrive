@@ -14,7 +14,7 @@ function HomePage(){
     }
 
     useEffect(() => {
-        fetch("https://localhost:7101/Soiduauto") //показ всех продуктов-1
+        fetch("https://localhost:7101/Soiduauto")
         .then(res => res.json())
         .then(json => setSoiduautod(json));
         fetch("https://localhost:7101/Veoauto")
