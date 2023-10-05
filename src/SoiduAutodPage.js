@@ -41,6 +41,10 @@ function SoiduAutodPage() {
                     <td>Масса: </td>
                     <td>{auto.mass}</td>
                   </tr>
+                  <tr>
+                    <td>Картинка: </td>
+                    <td><img src={auto.pilt} alt='pilt' width={500} height={500}/></td>
+                  </tr>
                 </tr>
               ))}
             </tbody>

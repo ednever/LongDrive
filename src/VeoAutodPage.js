@@ -1,7 +1,15 @@
+import { useEffect, useState } from 'react';
 import './App.css';
-//
 
 function VeoAutodPage () {
+    const [veoAutod, setVeoautod] = useState([]);
+
+    useEffect(() => {
+        fetch("https://localhost:7101/Veoauto")
+        .then(res => res.json())
+        .then(json => setVeoautod(json));
+    }, []);
+
 
     function goBack() { 
         window.history.back(); 
@@ -12,7 +20,21 @@ function VeoAutodPage () {
             <div class="App-body">
                 <div class="App-container"> 
                 <button onClick={goBack}>Назад</button>
-                <header class="App-header"><h3>Грузовик</h3></header>          
+                <header class="App-header"><h3>Грузовик</h3></header>    
+
+
+
+
+
+
+
+
+
+
+
+
+                
+                      
                 </div>
             </div>
         </div>
