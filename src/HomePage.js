@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 
-
 function HomePage(){
     const [soiduAutod, setSoiduautod] = useState([]);
     const [veoAutod, setVeoautod] = useState([]);
