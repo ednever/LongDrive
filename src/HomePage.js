@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import TellimusPage from './TellimusPage';
-
 
 function HomePage(){
     const [soiduAutod, setSoiduautod] = useState([]);
