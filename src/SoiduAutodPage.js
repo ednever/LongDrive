@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 function SoiduAutodPage() {
-  const [soiduAutod, setSoiduautod] = useState([]);
+  const [soiduAuto, setSoiduAuto] = useState(null);
   const elementIndexToShow = JSON.parse(localStorage.getItem('myValue'));
 
   useEffect(() => {
-    fetch("https://localhost:7101/Soiduauto")
+    fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(elementIndexToShow))
       .then(res => res.json())
-      .then(json => setSoiduautod(json));
+      .then(json => setSoiduAuto(json));
   }, []);
-
-  const filteredAutos = soiduAutod.filter((auto) => 1 === elementIndexToShow);
 
   return (
     <div className="App">
@@ -22,29 +20,28 @@ function SoiduAutodPage() {
           </header>
           <table>
             <tbody>
-            {filteredAutos.map((auto) => (
-              <tr key={auto.Id}>
+            {soiduAuto ? (
+              <tr>
                 <tr>
-                  <td>Марка: </td>
-                  <td>{auto.mark}</td>
+                  <td>Марка:</td>
+                  <td>{soiduAuto.mark}</td>
                 </tr>
                 <tr>
-                  <td>Длина: </td>
-                  <td>{auto.pikkus}</td>
+                  <td>Длина:</td>
+                  <td>{soiduAuto.pikkus}</td>
                 </tr>
                 <tr>
-                  <td>Масса: </td>
-                  <td>{auto.mass}</td>
+                  <td>Масса:</td>
+                  <td>{soiduAuto.mass}</td>
                 </tr>
                 <tr>
-                  <td>Картинка: </td>
-                  <td><img src={auto.pilt} alt='pilt' width={500} height={250}/></td>
+                  <td>Картинка:</td>
+                  <td><img src={soiduAuto.pilt} alt="pilt" width={500} height={250} /></td>
                 </tr>
               </tr>
-              
-            ))}
-                
-              
+            ) : (
+              <p>Loading...</p>
+            )}                              
             </tbody>
           </table>
         </div>
@@ -54,21 +51,3 @@ function SoiduAutodPage() {
 }
 
 export default SoiduAutodPage;
-{/* <tr key={soiduAutod.at(elementIndexToShow)}>
-                  <tr>
-                    <td>Марка: </td>
-                    <td>{soiduAutod.at(elementIndexToShow).mark}</td>
-                  </tr>
-                  <tr>
-                    <td>Длина: </td>
-                    <td>{soiduAutod.at(elementIndexToShow).pikkus}</td>
-                  </tr>
-                  <tr>
-                    <td>Масса: </td>
-                    <td>{soiduAutod.at(elementIndexToShow).mass}</td>
-                  </tr>
-                  <tr>
-                    <td>Картинка: </td>
-                    <td><img src={soiduAutod.at(0).pilt} alt='pilt' width={500} height={250}/></td>
-                  </tr>
-                </tr> */}
