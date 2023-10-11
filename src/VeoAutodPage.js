@@ -14,6 +14,7 @@ function VeoAutodPage () {
     function goBack() { 
         window.history.back(); 
     };
+    //Пора работать
 
     return (
         <div class="App">
