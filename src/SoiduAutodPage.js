@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 function SoiduAutodPage() {
-  const location = useLocation();
-  const [soiduAutod, setSoiduautod] = useState([]);
-  const [carData, setCarData] = useState({});
+  const [soiduAuto, setSoiduAuto] = useState(null);
+  const elementIndexToShow = JSON.parse(localStorage.getItem('myValue'));
 
   useEffect(() => {
-    fetch("https://localhost:7101/Soiduauto")
+    fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(elementIndexToShow))
       .then(res => res.json())
-      .then(json => setSoiduautod(json));
-    
-    const selectedCarData = location.state?.carData;
-    if (selectedCarData) {
-      setCarData(selectedCarData);
-    }
-  }, [location.state?.carData]);
+      .then(json => setSoiduAuto(json));
+  }, []);
 
   return (
     <div className="App">
@@ -27,22 +20,28 @@ function SoiduAutodPage() {
           </header>
           <table>
             <tbody>
-              {soiduAutod.map((auto) => (
-                <tr key={auto.mark}>
-                  <tr>
-                    <td>Марка: </td>
-                    <td>{auto.mark}</td>
-                  </tr>
-                  <tr>
-                    <td>Длина: </td>
-                    <td>{auto.pikkus}</td>
-                  </tr>
-                  <tr>
-                    <td>Масса: </td>
-                    <td>{auto.mass}</td>
-                  </tr>
+            {soiduAuto ? (
+              <tr>
+                <tr>
+                  <td>Марка:</td>
+                  <td>{soiduAuto.mark}</td>
                 </tr>
-              ))}
+                <tr>
+                  <td>Длина:</td>
+                  <td>{soiduAuto.pikkus}</td>
+                </tr>
+                <tr>
+                  <td>Масса:</td>
+                  <td>{soiduAuto.mass}</td>
+                </tr>
+                <tr>
+                  <td>Картинка:</td>
+                  <td><img src={soiduAuto.pilt} alt="pilt" width={500} height={250} /></td>
+                </tr>
+              </tr>
+            ) : (
+              <p>Loading...</p>
+            )}                              
             </tbody>
           </table>
         </div>
