@@ -5,17 +5,18 @@ function VeoAutodPage () {
     const [veoAuto, setVeoAuto] = useState(null);
     const elementIndexToShow = JSON.parse(localStorage.getItem('myValue'));
 
+    //let soiduPaevikId;
     const [soiduPaevik, setSoiduPaevik] = useState(null);
-    let veoAutoId;
+    
 
     useEffect(() => {
-        fetch("https://localhost:7101/Veoauto/" + JSON.stringify(elementIndexToShow))
+        fetch("https://localhost:7101/Veoauto/" + elementIndexToShow)
         .then(res => res.json())
         .then(json => setVeoAuto(json));
     }, []);
 
     useEffect(() => {
-        fetch("https://localhost:7101/Veoauto/soidupaevik" + JSON.stringify(veoAutoId))
+        fetch("https://localhost:7101/Soidupaevik/" + JSON.stringify(2))//veoAuto.soiduPaevik.id))
         .then(res => res.json())
         .then(json => setSoiduPaevik(json));
     }, []);
@@ -36,8 +37,7 @@ function VeoAutodPage () {
                     <table>
                         <tbody>
                         {veoAuto ? (
-                        <tr>
-                            {veoAutoId = veoAuto.id}
+                        <tr>                        
                             <tr>
                                 <td>Марка:</td>
                                 <td>{veoAuto.mark}</td>
@@ -61,10 +61,6 @@ function VeoAutodPage () {
                     <tbody>
                         {soiduPaevik ? (                       
                         <tr>                           
-                            <tr>
-                                <td>Номер дневника:</td>
-                                <td>{soiduPaevik.tellimusId}</td>
-                            </tr>
                             <tr>
                                 <td>Начало:</td>
                                 <td>{soiduPaevik.algus}</td>
