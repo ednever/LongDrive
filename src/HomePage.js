@@ -14,7 +14,7 @@ function HomePage(){
     }
 
     useEffect(() => {
-        fetch("https://localhost:7101/Soiduauto") //показ всех продуктов-1
+        fetch("https://localhost:7101/Soiduauto")
         .then(res => res.json())
         .then(json => setSoiduautod(json));
         fetch("https://localhost:7101/Veoauto")
@@ -22,7 +22,7 @@ function HomePage(){
         .then(json => setVeoautod(json));
     }, []);
 
-    function redirectToPage(select, autodList) {
+    function redirectToPage(select, autodList, index) {
         var selectedValue = select.value;
         if (selectedValue) 
         {
@@ -35,7 +35,8 @@ function HomePage(){
         {
             test = "http://localhost:3000/veoAutod";
         }
-        window.location.href = test;
+        localStorage.setItem('myValue', JSON.stringify(index));
+        window.location.href = test;       
         }
     };
 
@@ -47,12 +48,12 @@ function HomePage(){
               <header className="App-header"><h1>Long Drive</h1></header>
               <header className="App-header"><h3>Выберите</h3></header>
               <div>
-              <select onChange={(e) => redirectToPage(e.target, soiduAutod)}>
+              <select onChange={(e) => redirectToPage(e.target, soiduAutod, e.target.selectedIndex)}>
                 <option value="">Машины</option>
                 {soiduAutod.map((auto) => (<option value={auto.mark}> {auto.mark} </option>))} 
               </select>
     
-              <select onChange={(e) => redirectToPage(e.target, veoAutod)}>
+              <select onChange={(e) => redirectToPage(e.target, veoAutod, e.target.selectedIndex)}>
                 <option value="">Грузовики</option>
                 {veoAutod.map((auto) => (<option value={auto.mark}> {auto.mark} </option>))}
               </select>
