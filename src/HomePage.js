@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import { json } from 'react-router-dom';
 
 function HomePage(){
     const [soiduAutod, setSoiduautod] = useState([]);
@@ -26,17 +27,21 @@ function HomePage(){
         var selectedValue = select.value;
         if (selectedValue) 
         {
-        var test;
-        if (autodList === soiduAutod) 
-        {
-            test = "http://localhost:3000/soiduAutod";
-        } 
-        else if(autodList === veoAutod)
-        {
-            test = "http://localhost:3000/veoAutod";
-        }
-        localStorage.setItem('myValue', JSON.stringify(index));
-        window.location.href = test;       
+          var link;
+          var autoId;
+          if (autodList === soiduAutod) 
+          {
+            link = "http://localhost:3000/soiduAutod";
+            autoId = soiduAutod[index - 1].id;
+          } 
+          else if(autodList === veoAutod)
+          {
+            link = "http://localhost:3000/veoAutod";
+            autoId = veoAutod[index - 1].id;
+          }
+          localStorage.setItem('autoId', JSON.stringify(autoId));
+          localStorage.setItem('soiduPaevikId', JSON.stringify(veoAutod[index - 1].soiduPaevikId));
+          window.location.href = link;       
         }
     };
 
