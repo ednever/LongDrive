@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+
 function SoiduAutodPage() {
   const [soiduAuto, setSoiduAuto] = useState(null);
   const elementIndexToShow = JSON.parse(localStorage.getItem('autoId'));
@@ -10,6 +11,14 @@ function SoiduAutodPage() {
       .then(json => setSoiduAuto(json));
   }, []);
 
+
+  const mangu = () => {
+    window.location.href = "http://localhost:3000/mangudrive";
+  }
+
+
+
+
   return (
     <div className="App">
       <div className="App-body">
@@ -18,32 +27,40 @@ function SoiduAutodPage() {
           <header className="App-header">
             <h3>Машина</h3>
           </header>
+          <table style={{ width: '100%' }}>
+  <tbody>
+    {soiduAuto ? (
+      <tr>
+        <td style={{ paddingRight: '20px' }}>
           <table>
             <tbody>
-            {soiduAuto ? (
               <tr>
-                <tr>
-                  <td>Марка:</td>
-                  <td>{soiduAuto.mark}</td>
-                </tr>
-                <tr>
-                  <td>Длина:</td>
-                  <td>{soiduAuto.pikkus}</td>
-                </tr>
-                <tr>
-                  <td>Масса:</td>
-                  <td>{soiduAuto.mass}</td>
-                </tr>
-                <tr>
-                  <td>Картинка:</td>
-                  <td><img src={soiduAuto.pilt} alt="pilt" width={500} height={250} /></td>
-                </tr>
+                <td>Марка:</td>
+                <td>{soiduAuto.mark}</td>
               </tr>
-            ) : (
-              <p>Loading...</p>
-            )}                              
+              <tr>
+                <td>Длина:</td>
+                <td>{soiduAuto.pikkus}</td>
+              </tr>
+              <tr>
+                <td>Масса:</td>
+                <td>{soiduAuto.mass}</td>
+              </tr>
             </tbody>
           </table>
+        </td>
+        <td>
+          <img src={soiduAuto.pilt} alt="pilt" width={400} height={200} />
+        </td>
+      </tr>
+    ) : (
+      <tr>
+        <td colSpan="2">Loading...</td>
+      </tr>
+    )}
+  </tbody>
+</table>
+<button className="strbtn" onClick={mangu}>Начать </button>
         </div>
       </div>
     </div>
