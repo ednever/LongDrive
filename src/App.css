@@ -68,3 +68,20 @@ video {
   transform: translate(-50%, -50%);
   color: white;
 }
+
+.divider {
+  width: 1px; /* Ширина разделительной черты */
+  height: 75px; /* Высота разделительной черты (высота таблицы) */
+  background-color: #000; /* Цвет черты */
+  display: inline-block; /* Размещение в ряд с таблицами */
+  margin-right: 10px; /* Расстояние между чертой и таблицами */
+}
+
+table {  
+  display: inline-block; /* Размещение в ряд */
+  margin-right: 10px; /* Расстояние между таблицами */
+}
+
+#test {
+  display: inline-block;
+}
