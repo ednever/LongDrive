@@ -26,10 +26,12 @@ function VeoAutodPage () {
         window.history.back(); 
     };
 
+    const mangu = () => { window.location.href = "http://localhost:3000/mangudrive"; }
+
     function formatDate(dateTimeString) {
         if (!dateTimeString) {
           return '';
-        } //
+        } 
       
         const date = new Date(dateTimeString);
         const year = date.getFullYear();
@@ -103,7 +105,7 @@ function VeoAutodPage () {
                                     <td>{tellimus.nimi}</td>
                                     <td>{tellimus.vahemaa}</td>
                                     <td>{tellimus.kirjeldus}</td>
-                                    <td><button>Поехали</button></td>
+                                    <td><button onClick={mangu}>Поехали</button></td>
                                 </tr> 
                             </tbody>
                             )}                                               

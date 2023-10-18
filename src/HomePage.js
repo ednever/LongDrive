@@ -38,9 +38,9 @@ function HomePage(){
           {
             link = "http://localhost:3000/veoAutod";
             autoId = veoAutod[index - 1].id;
+            localStorage.setItem('soiduPaevikId', JSON.stringify(veoAutod[index - 1].soiduPaevikId));
           }
-          localStorage.setItem('autoId', JSON.stringify(autoId));
-          localStorage.setItem('soiduPaevikId', JSON.stringify(veoAutod[index - 1].soiduPaevikId));
+          localStorage.setItem('autoId', JSON.stringify(autoId));          
           window.location.href = link;       
         }
     };
