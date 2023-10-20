@@ -3,10 +3,10 @@ import './App.css';
 
 function VeoAutodPage () {
     const [veoAuto, setVeoAuto] = useState(null);
-    const veoAutoId = JSON.parse(localStorage.getItem('autoId'));
+    const veoAutoId = Number(localStorage.getItem('autoId'));
 
     const [soiduPaevik, setSoiduPaevik] = useState(null);   
-    const soiduPaevikId = JSON.parse(localStorage.getItem('soiduPaevikId'));
+    const soiduPaevikId = Number(localStorage.getItem('soiduPaevikId'));
 
     const [tellimused, setTellimused] = useState([]);
 
@@ -26,10 +26,12 @@ function VeoAutodPage () {
         window.history.back(); 
     };
 
+    const mangu = () => { window.location.href = "http://localhost:3000/mangudrive"; }
+
     function formatDate(dateTimeString) {
         if (!dateTimeString) {
           return '';
-        } //
+        } 
       
         const date = new Date(dateTimeString);
         const year = date.getFullYear();
@@ -103,7 +105,7 @@ function VeoAutodPage () {
                                     <td>{tellimus.nimi}</td>
                                     <td>{tellimus.vahemaa}</td>
                                     <td>{tellimus.kirjeldus}</td>
-                                    <td><button>Поехали</button></td>
+                                    <td><button onClick={mangu}>Поехали</button></td>
                                 </tr> 
                             </tbody>
                             )}                                               
