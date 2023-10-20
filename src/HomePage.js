@@ -29,18 +29,22 @@ function HomePage(){
         {
           var link;
           var autoId;
+          var svsv;
           if (autodList === soiduAutod) 
           {
             link = "http://localhost:3000/soiduAutod";
             autoId = soiduAutod[index - 1].id;
+            svsv = true;
           } 
           else if(autodList === veoAutod)
           {
             link = "http://localhost:3000/veoAutod";
             autoId = veoAutod[index - 1].id;
-            localStorage.setItem('soiduPaevikId', JSON.stringify(veoAutod[index - 1].soiduPaevikId));
+            localStorage.setItem('soiduPaevikId', (veoAutod[index - 1].soiduPaevikId).toString());
+            svsv = false;
           }
-          localStorage.setItem('autoId', JSON.stringify(autoId));          
+          localStorage.setItem('autoId', autoId.toString());  
+          localStorage.setItem('autoType', svsv.toString());       
           window.location.href = link;       
         }
     };

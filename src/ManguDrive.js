@@ -3,7 +3,10 @@ import './CarAnimation.css';
 import bgg from './images/bgg.png';
 import w211 from './images/w211.png';
 
-function ManguDrive() {
+function ManguDrive() {  
+    const carHavePicture = Boolean(localStorage.getItem('autoType'));
+    const carId = Number(localStorage.getItem('autoId'));
+
     const [leftPosition, setLeftPosition] = useState(0);
 
     const moveLeft = () => {

@@ -3,10 +3,10 @@ import './App.css';
 
 function VeoAutodPage () {
     const [veoAuto, setVeoAuto] = useState(null);
-    const veoAutoId = JSON.parse(localStorage.getItem('autoId'));
+    const veoAutoId = Number(localStorage.getItem('autoId'));
 
     const [soiduPaevik, setSoiduPaevik] = useState(null);   
-    const soiduPaevikId = JSON.parse(localStorage.getItem('soiduPaevikId'));
+    const soiduPaevikId = Number(localStorage.getItem('soiduPaevikId'));
 
     const [tellimused, setTellimused] = useState([]);
 

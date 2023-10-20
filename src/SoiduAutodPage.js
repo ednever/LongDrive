@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 function SoiduAutodPage() {
   const [soiduAuto, setSoiduAuto] = useState(null);
-  const elementIndexToShow = JSON.parse(localStorage.getItem('autoId'));
+  const elementIndexToShow = Number(localStorage.getItem('autoId'));
 
   useEffect(() => {
     fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(elementIndexToShow))
