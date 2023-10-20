@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './CarAnimation.css';
 import bgg from './images/bgg.png';
 import w211 from './images/w211.png';
 
 function ManguDrive() {  
-    const carHavePicture = Boolean(localStorage.getItem('autoType'));
+    const carHavePicture = localStorage.getItem('autoType');
     const carId = Number(localStorage.getItem('autoId'));
 
     const [leftPosition, setLeftPosition] = useState(0);
+    const [soiduAuto, setSoiduAuto] = useState(null);
+    var piltRef = useRef('');
 
     const moveLeft = () => {
       setLeftPosition(leftPosition - 10); 
@@ -15,11 +17,22 @@ function ManguDrive() {
   
     const moveRight = () => {
       setLeftPosition(leftPosition + 10);
-    };
+    };   
 
     useEffect(() => {
-      w211 = require('./images/w211.png');
-    }, []);
+      fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(carId))
+        .then(res => res.json())
+        .then(json => setSoiduAuto(json));
+      w211 = require('./images/w211.png');         
+    }, []);  
+
+    if (carHavePicture === 'true' && soiduAuto != null) {
+      piltRef = soiduAuto.pilt;
+    } else {
+      piltRef = w211;
+    }   
+
+    
 
     const objectStyle = {
       position: 'absolute',
@@ -46,8 +59,8 @@ function ManguDrive() {
           top: 0,
           left: 0,
           zIndex: -1,
-        }} />
-        <div style={objectStyle}><img src={w211} /></div>
+        }} />       
+        <div style={objectStyle}><img src={piltRef} alt='pilt' /></div>
         <button onClick={moveLeft} className="pedal">Влево</button>
         <button onClick={moveRight} className="pedal">Вправо</button>
       </div>
