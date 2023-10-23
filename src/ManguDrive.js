@@ -1,85 +1,94 @@
 import { useEffect, useState, useRef } from 'react';
 import './CarAnimation.css';
-import bgg from './images/bkcc.jpg';
-import w211 from './images/w211.png';
+import backgroundCarImg from './images/bg.gif';
+import backgroundTruckImg from './images/tripToCity.gif';
+import truckImg from './images/truckFromBehind.png';
 
 function ManguDrive() {  
     const carHavePicture = localStorage.getItem('autoType');
     const carId = Number(localStorage.getItem('autoId'));
 
-    const [leftPosition, setLeftPosition] = useState(0);
     const [soiduAuto, setSoiduAuto] = useState(null);
-    var piltRef = useRef('');
+    var CarImgRef = useRef('');
+    var BgImgRef = useRef('');
 
-    //const [carImage, setCarImage] = useState(null);     
 
-    useEffect(() => {
-      fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(carId))
-        .then(res => res.json())
-        .then(json => setSoiduAuto(json));
-      w211 = require('./images/w211.png');  
-      
-      /*const loadImage = async () => {
-        const image = new Image();
-        image.src = w211Image;
-        await image.decode();
-        setCarImage(image);
-      };
-  
-      loadImage();*/
+    const [leftPosition, setLeftPosition] = useState(0);
+    const animationFrameRef = useRef(null);
 
-    }, []);  
-
-    if (carHavePicture === 'true' && soiduAuto != null) {
-      piltRef = soiduAuto.pilt;
-    } else {
-      piltRef = w211;
-    }   
-
-    const moveLeft = () => {
-      setLeftPosition(leftPosition - 10); 
-    };
-  
-    const moveRight = () => {
-      setLeftPosition(leftPosition + 10);
-    }; 
-
-    /*const handleKeyDown = (event) => {
+    const handleKeyDown = (event) => {
       switch (event.key) {
         case "ArrowLeft":
-          moveLeft();
+          startMovingLeft();
           break;
         case "ArrowRight":
-          moveRight();
+          startMovingRight();
           break;
         default:
           break;
       }
-    };*/
+    };
 
-    /*useEffect(() => {
-      document.body.style.overflow = "hidden";
-  
+
+    useEffect(() => {
+      fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(carId))
+        .then(res => res.json())
+        .then(json => setSoiduAuto(json)); 
+
+      document.body.style.overflow = "hidden";  
       document.addEventListener("keydown", handleKeyDown);
       
       return () => {
         document.body.style.overflow = "visible";
         document.removeEventListener("keydown", handleKeyDown);
       };
-    }, [leftPosition]);*/
+
+    }, []);
+
+
+
+    if (carHavePicture === 'true' && soiduAuto != null) {
+      CarImgRef = soiduAuto.pilt;
+      BgImgRef = backgroundCarImg;
+    } else {
+      CarImgRef = truckImg;
+      BgImgRef = backgroundTruckImg;
+    } 
+
+
+    const startMovingLeft = () => {
+      cancelAnimationFrame(animationFrameRef.current);
+      const move = () => {
+        setLeftPosition((prevPosition) => prevPosition - 3);
+        animationFrameRef.current = requestAnimationFrame(move);
+      };
+      move();
+    };
   
+    const startMovingRight = () => {
+      cancelAnimationFrame(animationFrameRef.current);
+      const move = () => {
+        setLeftPosition((prevPosition) => prevPosition + 3);
+        animationFrameRef.current = requestAnimationFrame(move);
+      };
+      move();
+    };
+  
+    const stopMoving = () => {
+      cancelAnimationFrame(animationFrameRef.current);
+    };
+
     return (
-      <div className="container">
-        <img src={bgg} className="background" alt="Background" />
+      <div className="container" onKeyDown={handleKeyDown}>
+        <img src={BgImgRef} className="background" alt="Background" />
         <div className="car-object" style={{ left: `${leftPosition}px` }}>
-          {carImage && <img src={carImage.src} alt="Car" />}
+          <img src={CarImgRef} alt="Car" width="400"/>
         </div>
-        <button onClick={moveLeft} className="pedal left-pedal">Тормоз</button>
-        <button onClick={moveRight} className="pedal right-pedal">Газ</button>
+        <div style={{ left: leftPosition + "px" }} className="object"></div>
+        <button onMouseDown={startMovingLeft} onMouseUp={stopMoving} className="pedal left-pedal">Тормоз</button>
+        <button onMouseDown={startMovingRight} onMouseUp={stopMoving} className="pedal right-pedal">Газ</button>
       </div>
     );
 
 }
 export default ManguDrive;
-
-//Изменить картинку на piltRef
