@@ -7,8 +7,12 @@ import truckImg from './images/truckFromBehind.png';
 function ManguDrive() {  
     const carHavePicture = localStorage.getItem('autoType');
     const carId = Number(localStorage.getItem('autoId'));
+    const tellimusId = localStorage.getItem('tellimusId');
+    const tellimusAeg = localStorage.getItem('tellimusAeg');
 
     const [soiduAuto, setSoiduAuto] = useState(null);
+    const [seconds, setSeconds] = useState(Number(tellimusAeg)); // Начальное количество секунд (например, 2 минуты)
+    const [isActive, setIsActive] = useState(true);
     var CarImgRef = useRef('');
     var BgImgRef = useRef('');
 
@@ -31,9 +35,21 @@ function ManguDrive() {
 
 
     useEffect(() => {
-      fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(carId))
-        .then(res => res.json())
-        .then(json => setSoiduAuto(json)); 
+      fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(carId)).then(res => res.json()).then(json => setSoiduAuto(json));
+
+      let interval;
+
+      if (isActive && seconds > 0) {
+        interval = setInterval(() => {
+          setSeconds(seconds - 1);
+        }, 1000);
+      } else if (seconds === 0) {
+        clearInterval(interval);
+        alert('Заказ доставлен');
+        window.history.back(); 
+      }
+
+    
 
       document.body.style.overflow = "hidden";  
       document.addEventListener("keydown", handleKeyDown);
@@ -41,9 +57,11 @@ function ManguDrive() {
       return () => {
         document.body.style.overflow = "visible";
         document.removeEventListener("keydown", handleKeyDown);
+
+        clearInterval(interval);
       };
 
-    }, []);
+    }, [isActive, seconds]);
 
 
 
@@ -78,8 +96,16 @@ function ManguDrive() {
       cancelAnimationFrame(animationFrameRef.current);
     };
 
+    function formatTime(secs) {
+      const minutes = Math.floor(secs / 60);
+      const remainingSeconds = secs % 60;
+      return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    }
+
     return (
+      
       <div className="container" onKeyDown={handleKeyDown}>
+        <div className="overlay" >{formatTime(seconds)}</div>
         <img src={BgImgRef} className="background" alt="Background" />
         <div className="car-object" style={{ left: `${leftPosition}px` }}>
           <img src={CarImgRef} alt="Car" width="400"/>

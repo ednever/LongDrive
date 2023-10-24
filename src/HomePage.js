@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { json } from 'react-router-dom';
+//import { json } from 'react-router-dom';
 
 function HomePage(){
     const [soiduAutod, setSoiduautod] = useState([]);
@@ -15,12 +15,30 @@ function HomePage(){
     }
 
     useEffect(() => {
-        fetch("https://localhost:7101/Soiduauto")
-        .then(res => res.json())
-        .then(json => setSoiduautod(json));
-        fetch("https://localhost:7101/Veoauto")
-        .then(res => res.json())
-        .then(json => setVeoautod(json));
+      async function fetchData() {
+        try {
+          const responseSoiduauto = await fetch("https://localhost:7101/Soiduauto");
+          const responseVeoauto = await fetch("https://localhost:7101/Veoauto");
+          if (responseSoiduauto.ok && responseVeoauto.ok) 
+          {
+            const jsonSoiduauto = await responseSoiduauto.json();
+            setSoiduautod(jsonSoiduauto);
+
+            const jsonVeoauto = await responseVeoauto.json();
+            setVeoautod(jsonVeoauto);
+          } 
+          else 
+          {
+            console.error("Ошибка при получении данных Soiduauto:", responseSoiduauto.status, responseSoiduauto.statusText);
+            console.error("Ошибка при получении данных Veoauto:", responseVeoauto.status, responseVeoauto.statusText);
+          }
+
+        } catch (error) {
+          console.error("Произошла ошибка при запросе:", error);
+        }
+      }
+    
+      fetchData();
     }, []);
 
     function redirectToPage(select, autodList, index) {
