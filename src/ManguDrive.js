@@ -38,16 +38,18 @@ function ManguDrive() {
       fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(carId)).then(res => res.json()).then(json => setSoiduAuto(json));
 
       let interval;
-
-      if (isActive && seconds > 0) {
-        interval = setInterval(() => {
-          setSeconds(seconds - 1);
-        }, 1000);
-      } else if (seconds === 0) {
-        clearInterval(interval);
-        alert('Заказ доставлен');
-        window.history.back(); 
+      if (carHavePicture === "false"){       
+        if (isActive && seconds > 0) {
+          interval = setInterval(() => {
+            setSeconds(seconds - 1);
+          }, 1000);
+        } else if (seconds === 0) {
+          clearInterval(interval);
+          alert('Заказ доставлен');
+          window.history.back(); 
+        }
       }
+      
 
     
 
@@ -58,7 +60,9 @@ function ManguDrive() {
         document.body.style.overflow = "visible";
         document.removeEventListener("keydown", handleKeyDown);
 
-        clearInterval(interval);
+        if (carHavePicture === "false"){
+          clearInterval(interval);
+        }
       };
 
     }, [isActive, seconds]);
@@ -105,7 +109,7 @@ function ManguDrive() {
     return (
       
       <div className="container" onKeyDown={handleKeyDown}>
-        <div className="overlay" >{formatTime(seconds)}</div>
+        {carHavePicture === "false" && <div className="overlay">{formatTime(seconds)}</div>}
         <img src={BgImgRef} className="background" alt="Background" />
         <div className="car-object" style={{ left: `${leftPosition}px` }}>
           <img src={CarImgRef} alt="Car" width="400"/>
