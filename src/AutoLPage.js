@@ -11,27 +11,24 @@ function AutoLPage() {
   const pikkusRef = useRef();
   const piltRef = useRef();
 
-  function Lisa(mark, mass, pikkus, pilt) { //Добавление заказа
+  function Lisa(mark, mass, pikkus) { //Добавление заказа
     if (mark.trim() !== "" && mass !== "" && pikkus !== "") {
 
-      if (mass > 3500) {
-        /*fetch('https://localhost:7101/Veoauto/lisa/' + pikkus + '/' + mass + '/' + mark + "/" + 0, {"method": "POST"})
+      if (mass >= 3500) {
+        fetch('https://localhost:7101/Veoauto/lisa/' + pikkus + '/' + mass + '/' + mark + '/' + 0, {"method": "POST"})
         .then(res => res.json())
-        .then(json => setVeoAutod(json));*/
-        alert('Грузовик.');
+        .then(json => setVeoAutod(json));
       } 
       else {
-        /*fetch('https://localhost:7101/Soiduauto/lisa/' + pikkus + '/' + mass + '/' + mark + "/" + 0, {"method": "POST"})
+        fetch('https://localhost:7101/Soiduauto/lisa/' + pikkus + '/' + mass + '/' + mark + '/' + 0 + '/' + piltRef.current.value, {"method": "POST"})
         .then(res => res.json())
-        .then(json => setVeoAutod(json));*/
-        alert('Машина.');
+        .then(json => setVeoAutod(json));
+        piltRef.current.value = "";
       }
-      
 
       markRef.current.value = "";
       massRef.current.value = "";
-      pikkusRef.current.value = "";
-      piltRef.current.value = "";
+      pikkusRef.current.value = "";     
     } 
     else 
     {
@@ -85,7 +82,7 @@ function AutoLPage() {
               </div>
             )}
 
-            <button onClick={() => Lisa(markRef.current.value, massRef.current.value, pikkusRef.current.value, piltRef.current.value)}>Добавить</button>
+            <button onClick={() => Lisa(markRef.current.value, massRef.current.value, pikkusRef.current.value)}>Добавить</button>
           </div>
 
 

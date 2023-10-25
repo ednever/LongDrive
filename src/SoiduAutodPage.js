@@ -16,9 +16,6 @@ function SoiduAutodPage() {
     window.location.href = "http://localhost:3000/mangudrive";
   }
 
-
-
-
   return (
     <div className="App">
       <div className="App-body">

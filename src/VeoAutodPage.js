@@ -26,13 +26,13 @@ function VeoAutodPage () {
         window.history.back(); 
     };
 
-    const mangu = () => { window.location.href = "http://localhost:3000/mangudrive"; }
+    function mangu(tellimusId, tellimusAeg) { 
+        window.location.href = "http://localhost:3000/mangudrive";  
+        localStorage.setItem('tellimusId', tellimusId.toString());
+        localStorage.setItem('tellimusAeg', tellimusAeg);
+    }   
 
     function formatDate(dateTimeString) {
-        if (!dateTimeString) {
-          return '';
-        } 
-      
         const date = new Date(dateTimeString);
         const year = date.getFullYear();
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -105,7 +105,7 @@ function VeoAutodPage () {
                                     <td>{tellimus.nimi}</td>
                                     <td>{tellimus.vahemaa}</td>
                                     <td>{tellimus.kirjeldus}</td>
-                                    <td><button onClick={mangu}>Поехали</button></td>
+                                    <td><button onClick={() => mangu(tellimus.id, tellimus.vahemaa)}>Поехали</button></td>
                                 </tr> 
                             </tbody>
                             )}                                               
