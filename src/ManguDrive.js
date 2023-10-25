@@ -17,7 +17,7 @@ function ManguDrive() {
     var BgImgRef = useRef('');
 
 
-    const [leftPosition, setLeftPosition] = useState(0);
+    const [leftPosition, setLeftPosition] = useState(300);
     const animationFrameRef = useRef(null);
 
     const handleKeyDown = (event) => {
@@ -115,8 +115,8 @@ function ManguDrive() {
           <img src={CarImgRef} alt="Car" width="400"/>
         </div>
         <div style={{ left: leftPosition + "px" }} className="object"></div>
-        <button onMouseDown={startMovingLeft} onMouseUp={stopMoving} className="pedal left-pedal">Тормоз</button>
-        <button onMouseDown={startMovingRight} onMouseUp={stopMoving} className="pedal right-pedal">Газ</button>
+        <button onMouseDown={startMovingLeft} onMouseUp={stopMoving} className="pedal left-pedal">Влево</button>
+        <button onMouseDown={startMovingRight} onMouseUp={stopMoving} className="pedal right-pedal">Вправо</button>
       </div>
     );
 
