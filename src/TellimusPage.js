@@ -1,23 +1,20 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import './App.css';
 
 function TellimusPage() {
-  const [tellimused, setTellimused] = useState([]);
-
   const nimiRef = useRef();
   const vahemaaRef = useRef();
   const kirjeldusRef = useRef();
 
-  function Lisa(nimi, vahemaa, kirjeldus) { //Добавление заказа
-    if (nimi.trim() !== "" && kirjeldus.trim() !== "") {
-      fetch('https://localhost:7101/Tellimus/lisa/' + nimi + '/' + vahemaa + '/' + kirjeldus, {"method": "POST"})
-      .then(res => res.json())
-      .then(json => setTellimused(json));
+  function Lisa(nimi, vahemaa, kirjeldus) {
+    if (nimi.trim() !== "" && kirjeldus.trim() !== "") 
+    {
+      fetch('https://localhost:7101/Tellimus/lisa/' + nimi + '/' + vahemaa + '/' + kirjeldus, 
+      { method: "POST", headers: { "Content-Type": "application/json" }}); 
 
       nimiRef.current.value = "";
       vahemaaRef.current.value = 1;
       kirjeldusRef.current.value = "";
-
     } 
     else 
     {

@@ -6,7 +6,7 @@ function VeoAutodPage() {
   const veoAutoId = Number(localStorage.getItem('autoId'));
 
   const [soiduPaevik, setSoiduPaevik] = useState(null);
-  const soiduPaevikId = Number(localStorage.getItem('soiduPaevikId'));
+  //const soiduPaevikId = Number(localStorage.getItem('soiduPaevikId'));
 
   const [tellimused, setTellimused] = useState([]);
   const [selectedTellimus, setSelectedTellimus] = useState('');
@@ -15,10 +15,7 @@ function VeoAutodPage() {
   useEffect(() => {
     fetch("https://localhost:7101/Veoauto/" + veoAutoId)
       .then((res) => res.json())
-      .then((json) => setVeoAuto(json));
-    fetch("https://localhost:7101/Soidupaevik/" + soiduPaevikId)
-      .then((res) => res.json())
-      .then((json) => setSoiduPaevik(json));
+      .then((json) => setVeoAuto(json));    
     fetch("https://localhost:7101/Tellimus/")
       .then((res) => res.json())
       .then((json) => setTellimused(json));
@@ -29,9 +26,13 @@ function VeoAutodPage() {
   }
 
   function mangu(tellimusId, tellimusAeg) {
-    window.location.href = "http://localhost:3000/mangudrive";
+    fetch("https://localhost:7101/Soidupaevik/lisa/" + new Date() + "/" + veoAutoId + "/" + tellimusId, 
+    { method: "POST", headers: { "Content-Type": "application/json" }}); 
+
     localStorage.setItem('tellimusId', tellimusId.toString());
     localStorage.setItem('tellimusAeg', tellimusAeg);
+
+    window.location.href = "http://localhost:3000/mangudrive";
   }
 
   function formatDate(dateTimeString) {
@@ -75,26 +76,13 @@ function VeoAutodPage() {
                     <td>Масса:</td>
                     <td>{veoAuto.mass}</td>
                   </tr>
-                </tbody>
-              ) : (
-                <tbody>
                   <tr>
-                    <td>Loading...</td>
-                  </tr>
-                </tbody>
-              )}
-            </table>
-            <div className="divider"></div>
-            <table>
-              {soiduPaevik ? (
-                <tbody>
-                  <tr>
-                    <td>Начало:</td>
-                    <td>{formatDate(soiduPaevik.algus)}</td>
+                    <td>Дата регистрации:</td>
+                    <td>{formatDate(veoAuto.algus)}</td>
                   </tr>
                   <tr>
-                    <td>Конец:</td>
-                    <td>{formatDate(soiduPaevik.lopp)}</td>
+                    <td>Дата последнего использования:</td>
+                    <td>{formatDate(veoAuto.lopp)}</td>
                   </tr>
                 </tbody>
               ) : (
@@ -116,13 +104,8 @@ function VeoAutodPage() {
               <tbody>
                 <tr>
                   <td>
-                    <select
-                      onChange={handleTellimusChange}
-                      value={selectedTellimus}
-                    >
-                      <option value="" disabled>
-                        Выберите заказ
-                      </option>
+                    <select onChange={handleTellimusChange} value={selectedTellimus}>
+                      <option value="" disabled>Выберите заказ</option>
                       {tellimused.map((tellimus) => (
                         <option key={tellimus.id} value={tellimus.id}>
                           {`${tellimus.nimi} ${tellimus.vahemaa} ${tellimus.kirjeldus}`}
@@ -131,9 +114,7 @@ function VeoAutodPage() {
                     </select>
                   </td>
                   <td>
-                    <button
-                      disabled={!isButtonActive}
-                      onClick={() => {
+                    <button disabled={!isButtonActive} onClick={() => {
                         const selectedTellimusObj = tellimused.find(
                           (tellimus) =>
                             tellimus.id === Number(selectedTellimus)
@@ -145,9 +126,7 @@ function VeoAutodPage() {
                           );
                         }
                       }}
-                    >
-                      Поехали
-                    </button>
+                    >Поехали</button>
                   </td>
                 </tr>
               </tbody>

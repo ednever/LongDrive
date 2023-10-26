@@ -3,7 +3,6 @@ import './App.css';
 
 
 function AutoLPage() {
-  const [veoAutod, setVeoAutod] = useState([]);
   const [selectedOption, setSelectedOption] = useState('Машина');
 
   const markRef = useRef();
@@ -12,24 +11,17 @@ function AutoLPage() {
   const piltRef = useRef();
 
   function Lisa(mark, mass, pikkus) { //Добавление заказа
-    if (mark.trim() !== "" && mass !== "" && pikkus !== "") {
-
-      if (mass >= 3500) {
-        fetch('https://localhost:7101/Veoauto/lisa/' + pikkus.toString() + '/' + mass.toString() + '/' + mark + '/' + (0).toString(), {"method": "POST"})
-        .then(res => res.json())
-        .then(json => setVeoAutod(json));
+    if (mark.trim() !== "" && mass !== "" && pikkus !== "")
+    {
+      if (mass >= 3500) 
+      {
+        fetch('https://localhost:7101/Veoauto/lisa/' + pikkus + '/' + mass + '/' + mark, 
+        { method: "POST", headers: { "Content-Type": "application/json" }}); 
       } 
-      else {
-        //fetch('https://localhost:7101/Soiduauto/lisa/' + pikkus.toString() + '/' + mass.toString() + '/' + mark + '/' + (0).toString() + '/' + piltRef.current.value, {"method": "POST"})
-        //.then(res => res.json()).catch(error => console.error('Ошибка при запросе:', error));
-        //.then(json => setVeoAutod(json));
-
-        fetch('https://localhost:7101/Soiduauto/lisa' + pikkus.toString() + '/' + mass.toString() + '/' + mark + '/' + (0).toString() + '/' + piltRef.current.value, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        })
-          .then(response => response.json())
-          .catch(error => {console.error('Ошибка при запросе:', error)});
+      else 
+      {
+        fetch('https://localhost:7101/Soiduauto/lisa/' + pikkus + '/' + mass + '/' + mark + '/' + piltRef.current.value.replace(/\//g, '%2F'), 
+        { method: "POST", headers: { "Content-Type": "application/json" }}); 
         piltRef.current.value = "";
       }
 

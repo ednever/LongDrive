@@ -11,7 +11,7 @@ function ManguDrive() {
     const tellimusAeg = localStorage.getItem('tellimusAeg');
 
     const [soiduAuto, setSoiduAuto] = useState(null);
-    const [seconds, setSeconds] = useState(Number(tellimusAeg)); // Начальное количество секунд (например, 2 минуты)
+    const [seconds, setSeconds] = useState(Number(tellimusAeg));
     const [isActive, setIsActive] = useState(true);
     var CarImgRef = useRef('');
     var BgImgRef = useRef('');
@@ -35,7 +35,9 @@ function ManguDrive() {
 
 
     useEffect(() => {
-      fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(carId)).then(res => res.json()).then(json => setSoiduAuto(json));
+      fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(carId))
+      .then(res => res.json())
+      .then(json => setSoiduAuto(json));
 
       let interval;
       if (carHavePicture === "false"){       
