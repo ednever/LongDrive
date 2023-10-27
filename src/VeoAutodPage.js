@@ -5,9 +5,6 @@ function VeoAutodPage() {
   const [veoAuto, setVeoAuto] = useState(null);
   const veoAutoId = Number(localStorage.getItem('autoId'));
 
-  const [soiduPaevik, setSoiduPaevik] = useState(null);
-  //const soiduPaevikId = Number(localStorage.getItem('soiduPaevikId'));
-
   const [tellimused, setTellimused] = useState([]);
   const [selectedTellimus, setSelectedTellimus] = useState('');
   const [isButtonActive, setIsButtonActive] = useState(false);
@@ -26,7 +23,7 @@ function VeoAutodPage() {
   }
 
   function mangu(tellimusId, tellimusAeg) {
-    fetch("https://localhost:7101/Soidupaevik/lisa/" + new Date() + "/" + veoAutoId + "/" + tellimusId, 
+    fetch("https://localhost:7101/Soidupaevik/lisa/" + veoAutoId + "/" + tellimusId,
     { method: "POST", headers: { "Content-Type": "application/json" }}); 
 
     localStorage.setItem('tellimusId', tellimusId.toString());
@@ -106,11 +103,13 @@ function VeoAutodPage() {
                   <td>
                     <select onChange={handleTellimusChange} value={selectedTellimus}>
                       <option value="" disabled>Выберите заказ</option>
-                      {tellimused.map((tellimus) => (
-                        <option key={tellimus.id} value={tellimus.id}>
-                          {`${tellimus.nimi} ${tellimus.vahemaa} ${tellimus.kirjeldus}`}
-                        </option>
-                      ))}
+                      {tellimused
+                        .filter((tellimus) => tellimus.isActive)
+                        .map((tellimus) => (
+                          <option key={tellimus.id} value={tellimus.id}>
+                            {`${tellimus.nimi} ${tellimus.vahemaa} ${tellimus.kirjeldus}`}
+                          </option>
+                        ))}
                     </select>
                   </td>
                   <td>

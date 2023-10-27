@@ -6,7 +6,7 @@ import truckImg from './images/truckFromBehind.png';
 
 function ManguDrive() {  
     const carHavePicture = localStorage.getItem('autoType');
-    const carId = Number(localStorage.getItem('autoId'));
+    const carId = localStorage.getItem('autoId');
     const tellimusId = localStorage.getItem('tellimusId');
     const tellimusAeg = localStorage.getItem('tellimusAeg');
 
@@ -35,25 +35,30 @@ function ManguDrive() {
 
 
     useEffect(() => {
-      fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(carId))
-      .then(res => res.json())
-      .then(json => setSoiduAuto(json));
-
       let interval;
-      if (carHavePicture === "false"){       
-        if (isActive && seconds > 0) {
-          interval = setInterval(() => {
-            setSeconds(seconds - 1);
-          }, 1000);
-        } else if (seconds === 0) {
+
+      if (carHavePicture === 'true') {
+        fetch("https://localhost:7101/Soiduauto/" + carId)
+          .then(res => res.json())
+          .then(json => setSoiduAuto(json));
+      } 
+      else if (carHavePicture === "false")
+      {
+        if (isActive && seconds > 0) 
+        {
+          interval = setInterval(() => { setSeconds(seconds - 1); }, 1000);
+        } 
+        else if (seconds === 0) 
+        {
           clearInterval(interval);
           alert('Заказ доставлен');
+
+          fetch('https://localhost:7101/Tellimus/muuda/' + tellimusId, 
+          { method: "PUT", headers: { "Content-Type": "application/json" }}); 
+
           window.history.back(); 
         }
-      }
-      
-
-    
+      }   
 
       document.body.style.overflow = "hidden";  
       document.addEventListener("keydown", handleKeyDown);
