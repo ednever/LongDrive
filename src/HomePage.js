@@ -1,36 +1,28 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-//import { json } from 'react-router-dom';
 
 function HomePage(){
     const [soiduAutod, setSoiduautod] = useState([]);
     const [veoAutod, setVeoautod] = useState([]);
 
-    const tellimus = () => {
-      window.location.href = "http://localhost:3000/tellimus";
-    }
-
-    const autod = () => {
-      window.location.href = "http://localhost:3000/autod";
-    }
-
     useEffect(() => {
       async function fetchData() {
         try {
-          const responseSoiduauto = await fetch("https://localhost:7101/Soiduauto");
           const responseVeoauto = await fetch("https://localhost:7101/Veoauto");
+          const responseSoiduauto = await fetch("https://localhost:7101/Soiduauto");
+          
           if (responseSoiduauto.ok && responseVeoauto.ok) 
           {
-            const jsonSoiduauto = await responseSoiduauto.json();
-            setSoiduautod(jsonSoiduauto);
-
             const jsonVeoauto = await responseVeoauto.json();
             setVeoautod(jsonVeoauto);
+
+            const jsonSoiduauto = await responseSoiduauto.json();
+            setSoiduautod(jsonSoiduauto);          
           } 
           else 
           {
-            console.error("Ошибка при получении данных Soiduauto:", responseSoiduauto.status, responseSoiduauto.statusText);
             console.error("Ошибка при получении данных Veoauto:", responseVeoauto.status, responseVeoauto.statusText);
+            console.error("Ошибка при получении данных Soiduauto:", responseSoiduauto.status, responseSoiduauto.statusText);            
           }
 
         } catch (error) {
@@ -58,7 +50,6 @@ function HomePage(){
           {
             link = "http://localhost:3000/veoAutod";
             autoId = veoAutod[index - 1].id;
-            localStorage.setItem('soiduPaevikId', (veoAutod[index - 1].soiduPaevikId).toString());
             svsv = false;
           }
           localStorage.setItem('autoId', autoId.toString());  
@@ -86,8 +77,8 @@ function HomePage(){
               </select>
     
               </div>
-              <button onClick={tellimus}>Добавить заказ</button>
-              <button onClick={autod}>Добавить тс</button>
+              <button onClick={() => window.location.href = "http://localhost:3000/tellimus"}>Добавить заказ</button>
+              <button onClick={() => window.location.href = "http://localhost:3000/autod"}>Добавить тс</button>
             </div>
           </div>
         </div>

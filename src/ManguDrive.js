@@ -6,12 +6,12 @@ import truckImg from './images/truckFromBehind.png';
 
 function ManguDrive() {  
     const carHavePicture = localStorage.getItem('autoType');
-    const carId = Number(localStorage.getItem('autoId'));
+    const carId = localStorage.getItem('autoId');
     const tellimusId = localStorage.getItem('tellimusId');
     const tellimusAeg = localStorage.getItem('tellimusAeg');
 
     const [soiduAuto, setSoiduAuto] = useState(null);
-    const [seconds, setSeconds] = useState(Number(tellimusAeg)); // Начальное количество секунд (например, 2 минуты)
+    const [seconds, setSeconds] = useState(Number(tellimusAeg));
     const [isActive, setIsActive] = useState(true);
     var CarImgRef = useRef('');
     var BgImgRef = useRef('');
@@ -35,21 +35,30 @@ function ManguDrive() {
 
 
     useEffect(() => {
-      fetch("https://localhost:7101/Soiduauto/" + JSON.stringify(carId)).then(res => res.json()).then(json => setSoiduAuto(json));
-
       let interval;
 
-      if (isActive && seconds > 0) {
-        interval = setInterval(() => {
-          setSeconds(seconds - 1);
-        }, 1000);
-      } else if (seconds === 0) {
-        clearInterval(interval);
-        alert('Заказ доставлен');
-        window.history.back(); 
-      }
+      if (carHavePicture === 'true') {
+        fetch("https://localhost:7101/Soiduauto/" + carId)
+          .then(res => res.json())
+          .then(json => setSoiduAuto(json));
+      } 
+      else if (carHavePicture === "false")
+      {
+        if (isActive && seconds > 0) 
+        {
+          interval = setInterval(() => { setSeconds(seconds - 1); }, 1000);
+        } 
+        else if (seconds === 0) 
+        {
+          clearInterval(interval);
+          alert('Заказ доставлен');
 
-    
+          fetch('https://localhost:7101/Tellimus/muuda/' + tellimusId, 
+          { method: "PUT", headers: { "Content-Type": "application/json" }}); 
+
+          window.history.back(); 
+        }
+      }   
 
       document.body.style.overflow = "hidden";  
       document.addEventListener("keydown", handleKeyDown);
@@ -58,7 +67,9 @@ function ManguDrive() {
         document.body.style.overflow = "visible";
         document.removeEventListener("keydown", handleKeyDown);
 
-        clearInterval(interval);
+        if (carHavePicture === "false"){
+          clearInterval(interval);
+        }
       };
 
     }, [isActive, seconds]);
@@ -105,7 +116,7 @@ function ManguDrive() {
     return (
       
       <div className="container" onKeyDown={handleKeyDown}>
-        <div className="overlay" >{formatTime(seconds)}</div>
+        {carHavePicture === "false" && <div className="overlay">{formatTime(seconds)}</div>}
         <img src={BgImgRef} className="background" alt="Background" />
         <div className="car-object" style={{ left: `${leftPosition}px` }}>
           <img src={CarImgRef} alt="Car" width="400"/>
