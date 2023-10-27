@@ -16,6 +16,9 @@ function ManguDrive() {
     var CarImgRef = useRef('');
     var BgImgRef = useRef('');
 
+    const handleBackButtonClick = () => {
+      window.history.back();
+    };
 
     const [leftPosition, setLeftPosition] = useState(300);
     const animationFrameRef = useRef(null);
@@ -32,6 +35,11 @@ function ManguDrive() {
           break;
       }
     };
+
+    async function updateTellimusAndGoBack() {
+      await fetch('https://localhost:7101/Tellimus/muuda/' + tellimusId, { method: "PUT", headers: { "Content-Type": "application/json"}});    
+      window.history.back();
+    }
 
 
     useEffect(() => {
@@ -52,11 +60,7 @@ function ManguDrive() {
         {
           clearInterval(interval);
           alert('Заказ доставлен');
-
-          fetch('https://localhost:7101/Tellimus/muuda/' + tellimusId, 
-          { method: "PUT", headers: { "Content-Type": "application/json" }}); 
-
-          window.history.back(); 
+          updateTellimusAndGoBack();
         }
       }   
 
@@ -116,6 +120,7 @@ function ManguDrive() {
     return (
       
       <div className="container" onKeyDown={handleKeyDown}>
+        <button onClick={handleBackButtonClick} className="back-button">Назад</button>
         {carHavePicture === "false" && <div className="overlay">{formatTime(seconds)}</div>}
         <img src={BgImgRef} className="background" alt="Background" />
         <div className="car-object" style={{ left: `${leftPosition}px` }}>

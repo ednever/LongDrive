@@ -43,7 +43,7 @@ function TellimusPage() {
             <br/><label>Описание</label><br/>
             <input ref={kirjeldusRef} type="text" />
 
-            <button onClick={() => Lisa(nimiRef.current.value, vahemaaRef.current.value, kirjeldusRef.current.value)}>Lisa</button>
+            <br/><br/><button onClick={() => Lisa(nimiRef.current.value, vahemaaRef.current.value, kirjeldusRef.current.value)}>Добавить</button>
           </div>          
         </div>
       </div>

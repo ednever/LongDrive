@@ -3,28 +3,33 @@ import './App.css';
 
 function VeoAutodPage() {
   const [veoAuto, setVeoAuto] = useState(null);
+  const [tellimused, setTellimused] = useState([]);
+  const [soiduPaevik, setSoiduPaevikud] = useState([]);
+
   const veoAutoId = Number(localStorage.getItem('autoId'));
 
-  const [tellimused, setTellimused] = useState([]);
+  
   const [selectedTellimus, setSelectedTellimus] = useState('');
   const [isButtonActive, setIsButtonActive] = useState(false);
 
   useEffect(() => {
     fetch("https://localhost:7101/Veoauto/" + veoAutoId)
       .then((res) => res.json())
-      .then((json) => setVeoAuto(json));    
+      .then((json) => setVeoAuto(json));
     fetch("https://localhost:7101/Tellimus/")
       .then((res) => res.json())
       .then((json) => setTellimused(json));
+    fetch("https://localhost:7101/SoiduPaevik/otsi/" + veoAutoId)
+      .then((res) => res.json())
+      .then((json) => setSoiduPaevikud(json));
   }, []);
 
   function goBack() {
     window.history.back();
   }
 
-  function mangu(tellimusId, tellimusAeg) {
-    fetch("https://localhost:7101/Soidupaevik/lisa/" + veoAutoId + "/" + tellimusId,
-    { method: "POST", headers: { "Content-Type": "application/json" }}); 
+  async function mangu(tellimusId, tellimusAeg) {
+    await fetch("https://localhost:7101/Soidupaevik/lisa/" + veoAutoId + "/" + tellimusId, { method: "POST", headers: { "Content-Type": "application/json" }}); 
 
     localStorage.setItem('tellimusId', tellimusId.toString());
     localStorage.setItem('tellimusAeg', tellimusAeg);
@@ -77,9 +82,19 @@ function VeoAutodPage() {
                     <td>Дата регистрации:</td>
                     <td>{formatDate(veoAuto.algus)}</td>
                   </tr>
-                  <tr>
+                  {/*<tr>
                     <td>Дата последнего использования:</td>
                     <td>{formatDate(veoAuto.lopp)}</td>
+                  </tr>*/}
+                  <tr>
+                    <td>Выполненные заказы:</td>
+                    <td>
+                    
+                      <select>
+                        <option value="" disabled>Дневник</option>
+                        {soiduPaevik.map((spaevik) => (<option value={spaevik.id} disabled> {`${formatDate(spaevik.aeg)} ${spaevik.tellimusId}`} </option>))} 
+                      </select>
+                    </td>
                   </tr>
                 </tbody>
               ) : (
