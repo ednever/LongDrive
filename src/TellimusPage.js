@@ -1,23 +1,20 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import './App.css';
 
 function TellimusPage() {
-  const [tellimused, setTellimused] = useState([]);
-
   const nimiRef = useRef();
   const vahemaaRef = useRef();
   const kirjeldusRef = useRef();
 
-  function Lisa(nimi, vahemaa, kirjeldus) { //Добавление заказа
-    if (nimi.trim() !== "" && kirjeldus.trim() !== "") {
-      fetch('https://localhost:7101/Tellimus/lisa/' + nimi + '/' + Number(vahemaa) + '/' + kirjeldus, {"method": "POST"})
-      .then(res => res.json())
-      .then(json => setTellimused(json));
+  function Lisa(nimi, vahemaa, kirjeldus) {
+    if (nimi.trim() !== "" && kirjeldus.trim() !== "") 
+    {
+      fetch('https://localhost:7101/Tellimus/lisa/' + nimi + '/' + vahemaa + '/' + kirjeldus, 
+      { method: "POST", headers: { "Content-Type": "application/json" }}); 
 
       nimiRef.current.value = "";
       vahemaaRef.current.value = 1;
       kirjeldusRef.current.value = "";
-
     } 
     else 
     {
@@ -37,16 +34,16 @@ function TellimusPage() {
           <button onClick={goBack}>Назад</button>
           <header class="App-header"><h3>Заказ</h3></header>
           <div>
-            <label>Nimetus</label><br/>
+            <label>Название</label><br/>
             <input ref={nimiRef} type="text" />
 
-            <br/><label>Vahemaa</label><br/>
+            <br/><label>Путь</label><br/>
             <input ref={vahemaaRef} type="number" min={1} />
 
-            <br/><label>Kirjeldus</label><br/>
+            <br/><label>Описание</label><br/>
             <input ref={kirjeldusRef} type="text" />
 
-            <button onClick={() => Lisa(nimiRef.current.value, vahemaaRef.current.value, kirjeldusRef.current.value)}>Lisa</button>
+            <br/><br/><button onClick={() => Lisa(nimiRef.current.value, vahemaaRef.current.value, kirjeldusRef.current.value)}>Добавить</button>
           </div>          
         </div>
       </div>

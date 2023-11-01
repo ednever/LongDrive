@@ -3,7 +3,6 @@ import './App.css';
 
 
 function AutoLPage() {
-  const [veoAutod, setVeoAutod] = useState([]);
   const [selectedOption, setSelectedOption] = useState('Машина');
 
   const markRef = useRef();
@@ -11,27 +10,24 @@ function AutoLPage() {
   const pikkusRef = useRef();
   const piltRef = useRef();
 
-  function Lisa(mark, mass, pikkus, pilt) { //Добавление заказа
-    if (mark.trim() !== "" && mass !== "" && pikkus !== "") {
-
-      if (mass > 3500) {
-        /*fetch('https://localhost:7101/Veoauto/lisa/' + pikkus + '/' + mass + '/' + mark + "/" + 0, {"method": "POST"})
-        .then(res => res.json())
-        .then(json => setVeoAutod(json));*/
-        alert('Грузовик.');
+  function Lisa(mark, mass, pikkus) { //Добавление заказа
+    if (mark.trim() !== "" && mass !== "" && pikkus !== "")
+    {
+      if (mass >= 3500) 
+      {
+        fetch('https://localhost:7101/Veoauto/lisa/' + pikkus + '/' + mass + '/' + mark, 
+        { method: "POST", headers: { "Content-Type": "application/json" }}); 
       } 
-      else {
-        /*fetch('https://localhost:7101/Soiduauto/lisa/' + pikkus + '/' + mass + '/' + mark + "/" + 0, {"method": "POST"})
-        .then(res => res.json())
-        .then(json => setVeoAutod(json));*/
-        alert('Машина.');
+      else 
+      {
+        fetch('https://localhost:7101/Soiduauto/lisa/' + pikkus + '/' + mass + '/' + mark + '/' + piltRef.current.value.replace(/\//g, '%2F'), 
+        { method: "POST", headers: { "Content-Type": "application/json" }}); 
+        piltRef.current.value = "";
       }
-      
 
       markRef.current.value = "";
       massRef.current.value = "";
-      pikkusRef.current.value = "";
-      piltRef.current.value = "";
+      pikkusRef.current.value = "";     
     } 
     else 
     {
@@ -85,7 +81,7 @@ function AutoLPage() {
               </div>
             )}
 
-            <button onClick={() => Lisa(markRef.current.value, massRef.current.value, pikkusRef.current.value, piltRef.current.value)}>Добавить</button>
+            <button onClick={() => Lisa(markRef.current.value, massRef.current.value, pikkusRef.current.value)}>Добавить</button>
           </div>
 
 

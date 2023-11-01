@@ -1,26 +1,36 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { json } from 'react-router-dom';
 
 function HomePage(){
     const [soiduAutod, setSoiduautod] = useState([]);
     const [veoAutod, setVeoautod] = useState([]);
 
-    const tellimus = () => {
-      window.location.href = "http://localhost:3000/tellimus";
-    }
-
-    const autod = () => {
-      window.location.href = "http://localhost:3000/autod";
-    }
-
     useEffect(() => {
-        fetch("https://localhost:7101/Soiduauto")
-        .then(res => res.json())
-        .then(json => setSoiduautod(json));
-        fetch("https://localhost:7101/Veoauto")
-        .then(res => res.json())
-        .then(json => setVeoautod(json));
+      async function fetchData() {
+        try {
+          const responseVeoauto = await fetch("https://localhost:7101/Veoauto");
+          const responseSoiduauto = await fetch("https://localhost:7101/Soiduauto");
+          
+          if (responseSoiduauto.ok && responseVeoauto.ok) 
+          {
+            const jsonVeoauto = await responseVeoauto.json();
+            setVeoautod(jsonVeoauto);
+
+            const jsonSoiduauto = await responseSoiduauto.json();
+            setSoiduautod(jsonSoiduauto);          
+          } 
+          else 
+          {
+            console.error("Ошибка при получении данных Veoauto:", responseVeoauto.status, responseVeoauto.statusText);
+            console.error("Ошибка при получении данных Soiduauto:", responseSoiduauto.status, responseSoiduauto.statusText);            
+          }
+
+        } catch (error) {
+          console.error("Произошла ошибка при запросе:", error);
+        }
+      }
+    
+      fetchData();
     }, []);
 
     function redirectToPage(select, autodList, index) {
@@ -40,7 +50,6 @@ function HomePage(){
           {
             link = "http://localhost:3000/veoAutod";
             autoId = veoAutod[index - 1].id;
-            localStorage.setItem('soiduPaevikId', (veoAutod[index - 1].soiduPaevikId).toString());
             svsv = false;
           }
           localStorage.setItem('autoId', autoId.toString());  
@@ -68,8 +77,8 @@ function HomePage(){
               </select>
     
               </div>
-              <button onClick={tellimus}>Добавить заказ</button>
-              <button onClick={autod}>Добавить тс</button>
+              <button onClick={() => window.location.href = "http://localhost:3000/tellimus"}>Добавить заказ</button>
+              <button onClick={() => window.location.href = "http://localhost:3000/autod"}>Добавить тс</button>
             </div>
           </div>
         </div>
